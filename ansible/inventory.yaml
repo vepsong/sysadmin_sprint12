@@ -1,0 +1,15 @@
+linux: #Группа хостов
+  children: #Обозначение, что будет подгруппа хостов
+    nginx: #Имя подгруппы хостов
+      hosts: #Узлы группы
+        vm-2:
+          ansible_host: 89.169.157.38
+        vm-3:
+          ansible_host: 84.201.173.158
+        vm-4:
+          ansible_host: 84.252.129.215
+  vars: #Переменные, доступные или используемые для всех подгрупп
+    ansible_user: "root"
+    ansible_password: "qwerty"
+    connection_protocol: ssh #тип подключения
+    ansible_become: false #Становиться ли другим пользователем после подключения
