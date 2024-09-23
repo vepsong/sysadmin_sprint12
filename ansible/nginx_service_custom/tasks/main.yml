@@ -1,0 +1,19 @@
+---
+# tasks file for nginx_service_custom
+- name: Обновление списка пакетов
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Установка Nginx 
+  apt:
+    name: "nginx"
+    state: present
+
+- name: Подмена web-страницы
+  ansible.builtin.template:
+    src: index.j2
+    dest: /var/www/html/index.nginx-debian.html
+  loop: "{{ allowed_hosts }}"
+  when: inventory_hostname == item
+  notify: "Nginx Reloader"

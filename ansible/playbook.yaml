@@ -1,0 +1,30 @@
+--- 
+- name: Установка стандартных пакетов
+  hosts: all
+  roles:
+    - role: default_packages
+  tags:
+    - install_packages
+
+- name: Установка и настройка service-nginx c кастомной страницей
+  hosts: nginx # Будет работать на узлах в группе nginx
+  roles:
+    - role: nginx_service_custom
+  tags:
+    - nginx_service_custom
+
+- name: Установка и настройка proxy-nginx
+  hosts: nginx # Будет работать на узлах в группе nginx
+  roles:
+    - role: nginx_proxy
+  tags:
+    - nginx_proxy
+
+- name: Show hostvars for all hosts
+  hosts: all
+  tasks:
+    - name: Display hostvars
+      debug:
+        var: hostvars
+      tags:
+        - show_hostvars

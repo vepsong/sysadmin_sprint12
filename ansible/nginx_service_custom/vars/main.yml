@@ -1,0 +1,5 @@
+---
+# vars file for nginx_service_custom
+allowed_hosts:
+  - "vm-3"
+  - "vm-4"

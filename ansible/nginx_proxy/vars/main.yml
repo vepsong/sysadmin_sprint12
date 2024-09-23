@@ -1,0 +1,9 @@
+---
+# vars file for nginx_proxy
+
+hosts_nginx_proxy:
+  - "vm-2"
+
+hosts_nginx_service:
+  - "vm-3"
+  - "vm-4"

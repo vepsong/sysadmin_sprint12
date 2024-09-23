@@ -1,0 +1,20 @@
+---
+# tasks file for default_packages
+
+- name: Обновление списка пакетов
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Установка программ #Имя задачи 
+  apt: #Используемый модуль
+    name: "{{ item }}" #Имя пакета из цикла
+    state: present #Параметр действия. present - установить, absent - удалить
+  loop:
+    - "{{ packages_to_install }}" #Цикл будет перебирать все значения из переменной "packages_to_install"
+  when: ansible_distribution == "Debian" # Выполнится только на Debian системах
+
+# Меняем имя ВМ, если имя в inventory.yaml отличается от фактического
+- name: Меняем имя машины
+  shell: "echo {{ inventory_hostname }} > /etc/hostname"
+  when: "inventory_hostname != ansible_hostname" 

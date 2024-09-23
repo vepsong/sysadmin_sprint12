@@ -1,0 +1,23 @@
+---
+# tasks file for nginx_proxy
+- name: Установка Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Настройка Nginx на прокси-сервере
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/default
+  loop: "{{ hosts_nginx_proxy }}"
+  when: inventory_hostname == item
+  notify: "Nginx Reloader"
+
+- name: Создание символьной ссылки для включения конфигурации
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  loop: "{{ hosts_nginx_proxy }}"
+  when: inventory_hostname == item
+  notify: "Nginx Reloader"

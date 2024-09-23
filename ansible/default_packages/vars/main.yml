@@ -1,0 +1,17 @@
+# Создание переменной для списка установки нужных пакетов в роли default_packages/vars/main.yml
+--- 
+# vars file for default_packages
+packages_to_install:
+  - dnsutils
+  - net-tools
+  - rsync
+  - rsyslog
+  - mc
+  - curl
+  - wget
+  - apt-transport-https
+  - gnupg2
+  - software-properties-common
+  - ca-certificates
+  - parted
+  - openssh-server 
