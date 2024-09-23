@@ -4,7 +4,20 @@ import subprocess
 def main():
     # Укажите директорию с Terraform
     terraform_dir = '/home/sprint12_admin/sysadmin_sprint12/terraform_YP'
-    
+
+    # Загрузка параметров аутентификации из .auth.json
+    try:
+        with open('.auth.json') as config_file:
+            config = json.load(config_file)
+        ansible_user = config['ansible_user']
+        ansible_password = config['ansible_password']
+    except FileNotFoundError:
+        print("Файл .auth.json не найден.")
+        return
+    except KeyError:
+        print("Неправильный формат файла .auth.json.")
+        return
+
     # Запуск команды terraform output в указанной директории
     try:
         output = subprocess.check_output(['terraform', 'output', '-json'], cwd=terraform_dir)
@@ -35,8 +48,8 @@ def main():
 
             # Добавление переменных
             f.write("  vars: #Переменные, доступные или используемые для всех подгрупп\n")
-            f.write('    ansible_user: "root"\n')
-            f.write('    ansible_password: "qwerty"\n')
+            f.write(f'    ansible_user: "{ansible_user}"\n')
+            f.write(f'    ansible_password: "{ansible_password}"\n')
             f.write('    connection_protocol: ssh #тип подключения\n')
             f.write('    ansible_become: false #Становиться ли другим пользователем после подключения\n')
 
